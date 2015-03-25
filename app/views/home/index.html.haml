@@ -3,7 +3,7 @@
     %h3
       = fa_icon('tasks', text: 'タスク一覧')
     %ul.list-group{data: {bind: 'foreach: tasks'}}
-      %lil.list-group-item.pointer{data: {bind: 'text: title, click: selectTask'}}
+      %li.list-group-item{data: {bind: 'text: title, click: selectTask, css: { active: $parent.selectedTaskId() == id}'}}
   .app__main
     .task__add-form
       %form.form-horizontal
@@ -12,7 +12,7 @@
           .controls
             %input{type: 'text', data: {bind: 'value: newTitle'}}
         .control-group
-          %label.control-label 内容
+          %label.control-label 本文
           .controls
             %textarea{cols: 50, row: 4, data: {bind: 'value: newBody'}}
         %button{data: {bind: 'click: addTask'}} 追加
