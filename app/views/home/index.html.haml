@@ -3,7 +3,9 @@
     %h3
       = fa_icon('tasks', text: 'タスク一覧')
     %ul.list-group{data: {bind: 'foreach: tasks'}}
-      %li.list-group-item{data: {bind: 'text: title, click: selectTask, css: { active: $parent.selectedTaskId() == id}'}}
+      %li.list-group-item{data: {bind: 'click: selectTask, css: { active: $parent.selectedTaskId() == id}'}}
+        .task__updated.text-muted{data: {bind: 'text: updated'}}
+        .task__title{data: {bind: 'text: title'}}
   .app__main
     .task__add-form
       %form.form-horizontal
@@ -23,6 +25,7 @@
           .task__body-area{data: {bind: 'ifnot: editing'}}
             .task__body{data: {bind: 'text: body'}}
             %a{data: {bind: 'click: toggleEditing'}} 編集
+            %span.task__updated.text-muted.pull-right{data: {bind: 'text: updated'}}
           .task__edit-form{data: {bind: 'if: editing'}}
             %form{data: {bind:  'submit: updateTask'}}
               .form-group

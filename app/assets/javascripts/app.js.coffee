@@ -31,12 +31,14 @@ $ ->
       @tasks = ko.observableArray([])
       @title = ko.observable('')
       @body = ko.observable('')
+      @updated = ko.observable('')
       @selectedTaskId = ko.observable()
       @editing = ko.observable(false)
       @loadTasks()
 
     title: null
     body: null
+    updated: null
     selectedTaskId: null
     newTitle: null
     newBody: null
@@ -46,7 +48,7 @@ $ ->
       store.getTasks().done (tasks) =>
         @tasks.removeAll()
         tasks.forEach (task) =>
-          @tasks.push(new Task(task.id, task.title, task.body, @))
+          @tasks.push(new Task(task.id, task.title, task.body, task.updated_at, @))
 
     addTask: ->
       store.addTask(@newTitle, @newBody).done (task) =>
@@ -55,6 +57,7 @@ $ ->
       store.getTask(taskId).done (task) =>
         @title(task.title)
         @body(task.body)
+        @updated(task.updated_at)
         @selectedTaskId(task.id)
     updateTask: ->
       store.updateTask(@selectedTaskId(), @body()).done =>
@@ -70,8 +73,9 @@ $ ->
       @editing(!@editing())
 
   class Task
-    constructor: (id, title, body, app) ->
+    constructor: (id, title, body, updated, app) ->
       @app = app
+      @updated = updated
       @id = id
       @title = title
       @body = body
