@@ -1,0 +1,34 @@
+#knockout-app.app
+  .app__sidebar
+    %h3
+      = fa_icon('tasks', text: 'タスク一覧')
+    %ul.list-group{data: {bind: 'foreach: tasks'}}
+      %lil.list-group-item.pointer{data: {bind: 'text: title, click: selectTask'}}
+  .app__main
+    .task__add-form
+      %form.form-horizontal
+        .control-group
+          %label.control-label タイトル
+          .controls
+            %input{type: 'text', data: {bind: 'value: newTitle'}}
+        .control-group
+          %label.control-label 内容
+          .controls
+            %textarea{cols: 50, row: 4, data: {bind: 'value: newBody'}}
+        %button{data: {bind: 'click: addTask'}} 追加
+    .task__detail{data: {bind: 'if: selectedTaskId'}}
+      .panel.panel-default
+        .panel-heading{data: {bind: 'text: title'}}
+        .panel-body
+          .task__body-area{data: {bind: 'ifnot: editing'}}
+            .task__body{data: {bind: 'text: body'}}
+            %a{data: {bind: 'click: toggleEditing'}} 編集
+          .task__edit-form{data: {bind: 'if: editing'}}
+            %form{data: {bind:  'submit: updateTask'}}
+              .form-group
+                %textarea.form-control{cols: 50, row: 4, data: {bind: 'value: body'}}
+              %input.btn.btn-primary{type: 'submit', value: '更新'}
+              %a.btn.btn-default{data: {bind: 'click: toggleEditing'}}
+                キャンセル
+              %a.btn.btn-link.pull-right{data: {bind: 'click: deleteTask'}}
+                削除
